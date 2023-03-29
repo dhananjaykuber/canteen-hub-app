@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "203859185812",
+    "project_id": "canteenhub-ef590",
+    "storage_bucket": "canteenhub-ef590.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203859185812:android:0ee4b291d881bf4ea86481",
+        "android_client_info": {
+          "package_name": "com.foodordering"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203859185812-ocku07iinqqv9eh07nlnqj55leng1q2c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.foodordering",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "203859185812-0bjdi66csqjab3bsjj9p8t45gq31q4eo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2I5zHJHTbhmBCOgfKzs1Naab7xTWlt1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203859185812-0bjdi66csqjab3bsjj9p8t45gq31q4eo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
