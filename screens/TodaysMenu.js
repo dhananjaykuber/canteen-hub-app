@@ -9,104 +9,74 @@ import {
   TextInput,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import PopularMenu from '../components/menu/PopularMenu';
 import SingleMenu from '../components/menu/SingleMenu';
 import {BLACK, GREY, WHITE, YELLOW} from '../constants/color';
-
-import {useSelector} from 'react-redux';
-
+import Snackbar from 'react-native-snackbar';
+import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
+import {addItem} from '../redux/cart/cartSlice';
 
-const Menus = ({navigation}) => {
+const TodaysMenu = ({navigation}) => {
   const {totalItems} = useSelector(state => state.cart);
 
   const [menus, setMenus] = useState();
 
-  const [menuName, setMenuName] = useState('');
+  const [price, setPrice] = useState(0);
 
   useEffect(() => {
     const getMenus = async () => {
       firestore()
-        .collection('menus')
+        .collection('todaysmenus')
         .onSnapshot(snapshot => {
           let menus = [];
           snapshot.forEach(doc => {
-            menus.push({id: doc.id, ...doc.data()});
+            if (doc.id !== 'price') {
+              menus.push({id: doc.id, ...doc.data()});
+            }
           });
           setMenus(menus);
         });
     };
 
+    const getPrice = () => {
+      firestore()
+        .collection('todaysmenus')
+        .doc('price')
+        .onSnapshot(documentSnapshot => {
+          setPrice(documentSnapshot.data().price);
+        });
+    };
+
     getMenus();
+    getPrice();
   }, []);
 
-  const popularMenu = ({item}) => {
-    return (
-      <>
-        {item.popular === true && <PopularMenu item={item} showPrice={true} />}
-      </>
+  const dispatch = useDispatch();
+
+  const addItemToCart = () => {
+    dispatch(
+      addItem({
+        id: '0123456789',
+        image:
+          'https://firebasestorage.googleapis.com/v0/b/canteenhub-ef590.appspot.com/o/thali.jpeg?alt=media&token=dd1001fc-97f4-46bb-9514-b10a9d2ac282',
+        name: 'Thali',
+        price: price,
+        total: 1,
+      }),
     );
-  };
 
-  const renderPopularMenus = () => {
-    return (
-      <View>
-        <Text
-          style={{
-            color: BLACK,
-            fontFamily: 'Poppins-SemiBold',
-            paddingHorizontal: 10,
-            fontSize: 15,
-            marginVertical: 10,
-          }}>
-          Popular Menus
-        </Text>
-        <FlatList
-          data={menus}
-          renderItem={popularMenu}
-          keyExtractor={item => item.id}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
-
-        <Text
-          style={{
-            color: BLACK,
-            fontFamily: 'Poppins-SemiBold',
-            paddingHorizontal: 10,
-            fontSize: 15,
-            marginVertical: 10,
-          }}>
-          All Menus
-        </Text>
-
-        <View
-          style={{
-            position: 'relative',
-            marginHorizontal: 10,
-            borderColor: '#D3D3D3',
-            borderWidth: 1,
-            paddingHorizontal: 10,
-            borderRadius: 7,
-            marginBottom: 10,
-          }}>
-          <TextInput
-            placeholder="Search"
-            placeholderTextColor={GREY}
-            style={{color: GREY, fontFamily: 'Poppins-Regular'}}
-            value={menuName}
-            onChangeText={text => setMenuName(text)}
-          />
-          <TouchableOpacity style={{position: 'absolute', right: 10, top: 12}}>
-            <Ionicons name="search-outline" size={20} color={GREY} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+    Snackbar.show({
+      text: `Added to cart!`,
+      duration: Snackbar.LENGTH_SHORT,
+      backgroundColor: YELLOW,
+      duration: 2000,
+      fontFamily: 'Poppins-Medium',
+      textColor: WHITE,
+    });
   };
 
   const renderAllMenus = ({item}) => {
-    return <SingleMenu item={item} showPrice={true} />;
+    return <SingleMenu item={item} />;
   };
 
   return (
@@ -164,8 +134,40 @@ const Menus = ({navigation}) => {
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
         numColumns={2}
-        ListHeaderComponent={<View>{renderPopularMenus()}</View>}
-        ListFooterComponent={<View style={{marginBottom: 20}}></View>}
+        ListHeaderComponent={<View style={{marginBottom: 20}}></View>}
+        ListFooterComponent={
+          <View style={{paddingHorizontal: 15, paddingBottom: 30}}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: YELLOW,
+                paddingVertical: 12,
+                borderRadius: 80,
+                marginTop: 20,
+                paddingHorizontal: 30,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onPress={addItemToCart}>
+              <Ionicons
+                name="cart-outline"
+                size={20}
+                color={WHITE}
+                style={{top: -2}}
+              />
+              <Text
+                style={{
+                  fontFamily: 'Poppins-Medium',
+                  textTransform: 'uppercase',
+                  textAlign: 'center',
+                  color: WHITE,
+                  marginLeft: 10,
+                }}>
+                Add To Cart
+              </Text>
+            </TouchableOpacity>
+          </View>
+        }
       />
     </SafeAreaView>
   );
@@ -178,4 +180,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Menus;
+export default TodaysMenu;

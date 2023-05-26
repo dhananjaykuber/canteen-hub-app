@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,12 +10,59 @@ import {
   ScrollView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import firestore from '@react-native-firebase/firestore';
+import Snackbar from 'react-native-snackbar';
 import {BLACK, GREY, WHITE, YELLOW} from '../constants/color';
 
 import {useSelector} from 'react-redux';
 
 const Profile = ({navigation}) => {
   const {user} = useSelector(state => state.user);
+
+  const [phone, setPhone] = useState('');
+  const [branch, setBranch] = useState('');
+  const [year, setYear] = useState('');
+
+  useEffect(() => {
+    firestore()
+      .collection('users')
+      .doc(user.email)
+      .get()
+      .then(documentSnapshot => {
+        setPhone(documentSnapshot.data()?.phone);
+        setBranch(documentSnapshot.data()?.branch);
+        setYear(documentSnapshot.data()?.year);
+      });
+  }, []);
+
+  const showMessage = (message, color) => {
+    Snackbar.show({
+      text: message,
+      duration: Snackbar.LENGTH_SHORT,
+      backgroundColor: color,
+      duration: 2000,
+      fontFamily: 'Poppins-Medium',
+      textColor: WHITE,
+    });
+  };
+
+  const updateData = () => {
+    if (phone.length < 10 || branch.length < 2 || year.length < 1) {
+      return;
+    }
+
+    firestore()
+      .collection('users')
+      .doc(user.email)
+      .update({
+        phone: phone,
+        branch: branch,
+        year: year,
+      })
+      .then(() => {
+        showMessage('Profile updated successfully.');
+      });
+  };
 
   return (
     <SafeAreaView style={styles.cartScreen}>
@@ -89,19 +136,6 @@ const Profile = ({navigation}) => {
         <View style={styles.form}>
           <View style={styles.inputField}>
             <Ionicons
-              name="person-circle-outline"
-              size={20}
-              color={GREY}
-              style={styles.inputIcon}
-            />
-            <TextInput
-              placeholder="Name"
-              style={styles.input}
-              placeholderTextColor={GREY}
-            />
-          </View>
-          <View style={styles.inputField}>
-            <Ionicons
               name="call-outline"
               size={20}
               color={GREY}
@@ -111,6 +145,38 @@ const Profile = ({navigation}) => {
               placeholder="Phone"
               style={styles.input}
               placeholderTextColor={GREY}
+              value={phone}
+              onChangeText={text => setPhone(text)}
+            />
+          </View>
+          <View style={styles.inputField}>
+            <Ionicons
+              name="school-outline"
+              size={20}
+              color={GREY}
+              style={styles.inputIcon}
+            />
+            <TextInput
+              placeholder="Branch"
+              style={styles.input}
+              placeholderTextColor={GREY}
+              value={branch}
+              onChangeText={text => setBranch(text)}
+            />
+          </View>
+          <View style={styles.inputField}>
+            <Ionicons
+              name="calendar-outline"
+              size={20}
+              color={GREY}
+              style={styles.inputIcon}
+            />
+            <TextInput
+              placeholder="Year"
+              style={styles.input}
+              placeholderTextColor={GREY}
+              value={year}
+              onChangeText={text => setYear(text)}
             />
           </View>
           <TouchableOpacity
@@ -119,7 +185,8 @@ const Profile = ({navigation}) => {
               paddingVertical: 12,
               borderRadius: 7,
               marginTop: 20,
-            }}>
+            }}
+            onPress={updateData}>
             <Text
               style={{
                 fontFamily: 'Poppins-Medium',

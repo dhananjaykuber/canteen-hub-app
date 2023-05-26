@@ -68,6 +68,8 @@ const Cart = ({navigation}) => {
         : '0' + (new Date().getMonth() + 1);
     const year = new Date().getFullYear();
 
+    console.log(`${BASE_URL}/api/order/create-order`);
+
     try {
       const response = await axios.post(
         `${BASE_URL}/api/order/create-order`,

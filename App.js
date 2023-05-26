@@ -28,7 +28,7 @@ const App = () => {
 
   useEffect(() => {
     auth().onAuthStateChanged(user => {
-      console.log(user.email, user.displayName);
+      console.log(user?.email, user?.displayName);
     });
 
     // auth()

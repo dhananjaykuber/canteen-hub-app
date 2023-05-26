@@ -9,7 +9,7 @@ import Snackbar from 'react-native-snackbar';
 
 const width = Dimensions.get('window').width;
 
-const SingleMenu = ({item}) => {
+const SingleMenu = ({item, showPrice}) => {
   const dispatch = useDispatch();
 
   const addItemToCart = () => {
@@ -46,26 +46,31 @@ const SingleMenu = ({item}) => {
         }}>
         {item.name}
       </Text>
-      <Text
-        style={{
-          color: BLACK,
-          textAlign: 'center',
-          fontFamily: 'Poppins-SemiBold',
-          marginTop: -2,
-        }}>
-        Rs. {item.price}
-      </Text>
-      <TouchableOpacity
-        style={{
-          backgroundColor: YELLOW,
-          alignSelf: 'center',
-          borderRadius: 5,
-          paddingHorizontal: 2,
-          marginTop: 8,
-        }}
-        onPress={addItemToCart}>
-        <Ionicons name="add" size={22} color={WHITE} />
-      </TouchableOpacity>
+
+      {showPrice && (
+        <>
+          <Text
+            style={{
+              color: BLACK,
+              textAlign: 'center',
+              fontFamily: 'Poppins-SemiBold',
+              marginTop: -2,
+            }}>
+            Rs. {item.price}
+          </Text>
+          <TouchableOpacity
+            style={{
+              backgroundColor: YELLOW,
+              alignSelf: 'center',
+              borderRadius: 5,
+              paddingHorizontal: 2,
+              marginTop: 8,
+            }}
+            onPress={addItemToCart}>
+            <Ionicons name="add" size={22} color={WHITE} />
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
 };

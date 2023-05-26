@@ -19,6 +19,7 @@ import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 
 import {setUser} from '../redux/user/userSlice';
+import TodaysMenu from '../screens/TodaysMenu';
 
 const Drawer = createDrawerNavigator();
 
@@ -72,6 +73,20 @@ const Navigation = () => {
                 drawerIcon: ({color}) => (
                   <Ionicons
                     name="fast-food-outline"
+                    size={20}
+                    color={color}
+                    style={{marginTop: -3}}
+                  />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Todays Menu"
+              component={TodaysMenu}
+              options={{
+                drawerIcon: ({color}) => (
+                  <Ionicons
+                    name="restaurant-outline"
                     size={20}
                     color={color}
                     style={{marginTop: -3}}
