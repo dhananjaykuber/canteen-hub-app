@@ -22,7 +22,7 @@ https://drive.google.com/file/d/1jOcY6zCcUlb1YpoqP_73_xJKvHg9q47I/view?usp=shari
 
 ## Screenshots
 
-![App Screenshot](https://firebasestorage.googleapis.com/v0/b/canteenhub-ef590.appspot.com/o/screenshots%2Fcanteenhub%20-%20screen-1.png?alt=media&token=bea3d629-5f7e-4228-8b8e-105c921ebe94 | width=300)
+![App Screenshot](https://firebasestorage.googleapis.com/v0/b/canteenhub-ef590.appspot.com/o/screenshots%2Fcanteenhub%20-%20screen-1.png?alt=media&token=9fb52c0e-cef6-4c84-9d8e-7c86dbed7738)
 
 ![App Screenshot](https://firebasestorage.googleapis.com/v0/b/canteenhub-ef590.appspot.com/o/screenshots%2Fcanteenhub%20-%20screen-2.png?alt=media&token=3f1b7809-c476-4064-b4bb-e60edddb3cee)
 
