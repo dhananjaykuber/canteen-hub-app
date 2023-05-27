@@ -30,7 +30,7 @@ const TodaysMenu = ({navigation}) => {
         .onSnapshot(snapshot => {
           let menus = [];
           snapshot.forEach(doc => {
-            if (doc.id !== 'price') {
+            if (doc.id !== 'price' && doc.data().today === true) {
               menus.push({id: doc.id, ...doc.data()});
             }
           });

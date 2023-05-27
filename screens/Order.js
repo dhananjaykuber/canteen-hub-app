@@ -8,6 +8,7 @@ import {
   Image,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import DatePicker from 'react-native-date-picker';
 import {FlatList} from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {BLACK, GREY, WHITE, YELLOW, RED} from '../constants/color';
@@ -17,6 +18,9 @@ const Order = ({navigation}) => {
   const {user} = useSelector(state => state.user);
 
   const [items, setItems] = useState([]);
+
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const date =
@@ -51,6 +55,39 @@ const Order = ({navigation}) => {
         });
       });
   }, []);
+
+  useEffect(() => {
+    setItems([]);
+
+    const dt = date.getDate() + 1 > 10 ? date.getDate() : '0' + date.getDate();
+    const month =
+      date.getMonth() + 1 > 10
+        ? date.getMonth() + 1
+        : '0' + (date.getMonth() + 1);
+    const year = date.getFullYear();
+
+    firestore()
+      .collection('orders')
+      .where('email', '==', user.email)
+      .where('date', '==', `${dt}-${month}-${year}`)
+      .onSnapshot(querySnapshot => {
+        setItems([]);
+        querySnapshot.forEach(documentSnapshot => {
+          const tempData = {
+            date: `${dt}-${month}-${year}`,
+            orderNo: documentSnapshot.id,
+            subtotal: documentSnapshot.data().total,
+            status: documentSnapshot.data().served,
+          };
+          let tempItems = [];
+          documentSnapshot.data().items.map(item => {
+            tempItems.push(item);
+          });
+          tempData.items = tempItems;
+          setItems(items => [...items, tempData]);
+        });
+      });
+  }, [date]);
 
   const renderItem = ({item}) => {
     return (
@@ -143,6 +180,19 @@ const Order = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.cartScreen}>
+      <DatePicker
+        modal
+        open={open}
+        date={date}
+        onConfirm={date => {
+          setOpen(false);
+          setDate(date);
+        }}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      />
+
       <View
         style={{
           flexDirection: 'row',
@@ -181,16 +231,26 @@ const Order = ({navigation}) => {
           paddingVertical: 30,
           paddingHorizontal: 10,
         }}>
-        <Text
+        <View
           style={{
-            color: YELLOW,
-            fontFamily: 'Poppins-SemiBold',
-            paddingHorizontal: 10,
-            fontSize: 18,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             marginVertical: 10,
+            paddingHorizontal: 10,
           }}>
-          Canteen Hub Orders
-        </Text>
+          <Text
+            style={{
+              color: YELLOW,
+              fontFamily: 'Poppins-SemiBold',
+              fontSize: 18,
+            }}>
+            Canteen Hub Orders
+          </Text>
+          <TouchableOpacity onPress={() => setOpen(true)}>
+            <Ionicons name="calendar-outline" size={18} color={BLACK} />
+          </TouchableOpacity>
+        </View>
 
         {items.length > 0 ? (
           <View style={{paddingBottom: 80}}>
