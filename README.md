@@ -33,3 +33,7 @@ https://drive.google.com/file/d/1jOcY6zCcUlb1YpoqP_73_xJKvHg9q47I/view?usp=shari
 ![App Screenshot](https://firebasestorage.googleapis.com/v0/b/canteenhub-ef590.appspot.com/o/screenshots%2Fcanteenhub%20-%20screen-5.png?alt=media&token=f3530edf-e5c6-4d88-bbc8-03ec620a9c09)
 
 ![App Screenshot](https://firebasestorage.googleapis.com/v0/b/canteenhub-ef590.appspot.com/o/screenshots%2Fcanteenhub%20-%20screen-6.png?alt=media&token=efceef8d-061e-442d-b464-67359843e353)
+
+![App Screenshot](https://firebasestorage.googleapis.com/v0/b/canteenhub-ef590.appspot.com/o/screenshots%2Fcanteenhub%20-%20screen-7.png?alt=media&token=6222ec31-fa0d-46e4-8262-02b1a980a91c)
+
+![App Screenshot](https://firebasestorage.googleapis.com/v0/b/canteenhub-ef590.appspot.com/o/screenshots%2Fcanteenhub%20-%20screen-8.png?alt=media&token=146c9bb8-4ada-42e2-b63c-1e4a2ee010f6)
